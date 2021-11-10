@@ -1,5 +1,5 @@
 """
-Populate twitter database with fake data using the SQLAlchemy ORM.
+Populate twitter database with faker data using the SQLAlchemy ORM.
 """
 
 import random
