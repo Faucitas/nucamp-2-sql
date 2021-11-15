@@ -11,24 +11,23 @@ class User(db.Model):
     password = db.Column(db.String(128), nullable=False)
     tweets = db.relationship('Tweet', backref='user', cascade="all,delete")
 
+    def __init__(self, username: str, password: str):
+        self.username = username
+        self.password = password
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+        }
+
 
 likes_table = db.Table(
     'likes',
-    db.Column(
-        'user_id',
-        db.ForeignKey('users.id'),
-        primary_key=True
-    ),
-    db.Column(
-        'tweet_id', db.Integer,
-        db.ForeignKey('tweets.id'),
-        primary_key=True
-    ),
-    db.Column(
-        'created_at', db.DateTime,
-        default=datetime.datetime.utcnow,
-        nullable=False
-    )
+    db.Column('user_id', db.ForeignKey('users.id'), primary_key=True),
+    db.Column('tweet_id', db.Integer, db.ForeignKey(
+        'tweets.id'), primary_key=True),
+    db.Column('created_at', db.DateTime, default=datetime.datetime.utcnow, nullable=False)
 )
 
 

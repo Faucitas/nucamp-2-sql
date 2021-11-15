@@ -39,11 +39,19 @@ def create():
 
 @bp.route('/<int:tweet_id>', methods=['DELETE'])
 def delete(tweet_id: int):
-    tweet = Tweet.query.get_or_404(tweet_id)
-    print(tweet)
+    tweet = Tweet.query.get(tweet_id)
     try:
         db.session.delete(tweet)
         db.session.commit()
-        return jsonify(True)
+        return jsonify(True), 200
     except:
-        return jsonify(False)
+        return jsonify(False), 200
+
+
+@bp.route('/<int:tweet_id>/liking_users', methods=['GET'])
+def liking_users(tweet_id: int):
+    tweets = Tweet.query.get_or_404(tweet_id)
+    results = []
+    for user in tweets.likes:
+        results.append(user.serialize())
+    return jsonify(results), 200
