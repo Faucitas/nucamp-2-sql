@@ -98,9 +98,8 @@ def update(user_id: int):
 def liking_users(user_id: int):
     user = User.query.get_or_404(user_id)
     results = []
-
-    for user in user.liked_tweets:
-        results.append(user.serialize())
+    for tweet in user.liked_tweets:
+        results.append(tweet.serialize())
     return jsonify(results), 200
 
 

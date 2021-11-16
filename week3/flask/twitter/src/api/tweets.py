@@ -50,8 +50,8 @@ def delete(tweet_id: int):
 
 @bp.route('/<int:tweet_id>/liking_users', methods=['GET'])
 def liking_users(tweet_id: int):
-    tweets = Tweet.query.get_or_404(tweet_id)
+    tweet = Tweet.query.get_or_404(tweet_id)
     results = []
-    for user in tweets.likes:
+    for user in tweet.likes:
         results.append(user.serialize())
     return jsonify(results), 200
